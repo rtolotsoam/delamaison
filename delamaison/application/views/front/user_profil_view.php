@@ -30,7 +30,7 @@
 									  	
 									  	<div class="form-group">
 									    	<label for="prenom"><?php echo ascii_to_entities("Prénom"); ?></label>
-									    	<input type="text" class="form-control" id="prenom" value="<?php echo $prenom; ?>" placeholder="Entrer Prénom" />
+									    	<input type="text" class="form-control" id="prenom" value="<?php $prenom = ucfirst(strtolower($prenom)); echo ascii_to_entities($prenom); ?>" placeholder="Entrer Prénom" />
 									  	</div>
 
 									  	<p id="mail_error"></p>

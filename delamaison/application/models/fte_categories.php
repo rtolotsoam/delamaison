@@ -164,5 +164,29 @@ class Fte_categories extends CI_Model
 		return $this->db->where("fte_categories_id", $id)
 						->update($this->table, $data);
 	}
+
+	public function editer_categories_withroot_id($id, $data) {
+		return $this->db->where("root_id", $id)
+						->update($this->table, $data);
+	}
+
+	public function editer_categories_withparent_id($id, $data) {
+		return $this->db->where("parent_id", $id)
+						->update($this->table, $data);
+	}
+
+
+	public function get_niveau($id)
+	{
+		$rq = $this->db->select('niveau')
+						->from($this->table)
+						->where('fte_categories_id', $id)
+						->get();
+
+		if( $rq->num_rows > 0 ){
+			return $rq->result();
+		}
+		return false;
+	}
 		
 }

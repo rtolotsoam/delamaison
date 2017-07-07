@@ -29,10 +29,13 @@
 <script src="<?php echo js_url('modules/admin/tables/datatables/assets/lib/extras/TableTools/media/js/TableTools.min.js?v=v1.2.3'); ?>"></script>
 <script src="<?php echo js_url('modules/admin/tables/datatables/assets/lib/extras/ColVis/media/js/ColVis.min.js?v=v1.2.3'); ?>"></script>
 <script src="<?php echo js_url('modules/admin/tables/datatables/assets/custom/js/DT_bootstrap.js?v=v1.2.3'); ?>"></script>
-<script src="<?php echo js_url('modules/admin/tables/datatables/assets/custom/js/datatables.init.js?v=v1.2.3'); ?>"></script>
+<script src="<?php echo js_url('modules/admin/tables/datatables/assets/custom/js/datatables.init.js?v=v1.2.4'); ?>"></script>
 
 <script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-select/assets/lib/js/bootstrap-select.js?v=v1.2.3'); ?>"></script>
 <script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-select/assets/custom/js/bootstrap-select.init.js?v=v1.2.3'); ?>"></script>
+
+<script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-datepicker/assets/lib/js/bootstrap-datepicker.js?v=v1.2.3'); ?>"></script>
+<script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-datepicker/assets/custom/js/bootstrap-datepicker.init.js?v=v1.2.3'); ?>"></script>
 
 <script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-timepicker/assets/lib/js/bootstrap-timepicker.js?v=v1.2.3'); ?>"></script>
 <script src="<?php echo js_url('modules/admin/forms/elements/bootstrap-timepicker/assets/custom/js/bootstrap-timepicker.init.js?v=v1.2.3'); ?>"></script>

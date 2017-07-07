@@ -639,6 +639,25 @@ class CI_DB_active_record extends CI_DB_driver {
 
 	// --------------------------------------------------------------------
 
+		// --------------------------------------------------------------------
+
+	/**
+	 * OR iLike
+	 *
+	 * Generates a %LIKE% portion of the query. Separates
+	 * multiple calls with OR
+	 *
+	 * @param	mixed
+	 * @param	mixed
+	 * @return	object
+	 */
+	public function or_ilike($field, $match = '', $side = 'both')
+	{
+		return $this->_ilike($field, $match, 'OR ', $side);
+	}
+
+	// --------------------------------------------------------------------
+
 	/**
 	 * OR Not Like
 	 *

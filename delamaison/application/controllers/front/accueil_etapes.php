@@ -53,6 +53,7 @@ class Accueil_etapes extends CI_Controller
                 $data['menu'] = $menu;
             }
             $data['level'] = $level;
+            $data['js'] = array('js/back.js');
             //** END PARAMETRE VUE **
 
             //** APPEL VUE **

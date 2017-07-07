@@ -118,7 +118,7 @@ class Processus extends CI_Controller
                     'toolbar'   =>  "Full",     //Using the Full toolbar
                     'width'     =>  "100%",    //Setting a custom width
                     'height'    =>  "100%",    //Setting a custom height
-                    'filebrowserBrowseUrl' => "/deliveroo/assets/components/modules/admin/forms/editors/ckeditor/ckfinder/ckfinder.html"
+                    'filebrowserBrowseUrl' => "/delamaison/assets/components/modules/admin/forms/editors/ckeditor/ckfinder/ckfinder.html"
                     
                     )
                 );

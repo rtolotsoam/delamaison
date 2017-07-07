@@ -88,9 +88,24 @@ class Jstree_admin extends CI_Controller {
 
 				$id = (int) $this->input->post('id');
 
-				$delete = $this->cats->editer_categories($id, array('flag' => 0));
+				$data = array('flag' => 0);
+
+				$delete = $this->cats->editer_categories($id, $data);
 
 				if($delete){
+
+					$niveau = $this->cats->get_niveau($id);
+
+
+		            if($niveau[0]->niveau == 2 ){
+		                
+		                $this->cats->editer_categories_withroot_id($id, $data);
+
+		            }else if($niveau[0]->niveau == 3){
+
+		                $this->cats->editer_categories_withparent_id($id, $data);
+		            }
+
 					echo "succes";
 				}else{
 					echo "erreur";

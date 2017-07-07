@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.104.83/delamaison/';
+$config['base_url'] = 'http://192.168.104.84/delamaison/';
 
 /*
 |--------------------------------------------------------------------------
@@ -134,7 +134,7 @@ $config['subclass_prefix'] = 'MY_';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = '';//'a-z 0-9~%.:_\-';
 
 
 /*

@@ -109,6 +109,34 @@ class Utilisateur extends CI_Controller
 
 		if($this->session->userdata('loggin') && $level == 'admin' && $this->input->post('ajax') == '1'){
 
+
+			// paramétre mail
+			$base = BASEPATH;
+
+	    	$filename       = 'logo_mail2.png';
+	    	$filename2       = 'logo_tel.png';
+	    	$filename3       = 'logo_m.png';
+	    	$filename4       = 'logo_skype.png';
+	    	$filename5       = 'logo_back.png';
+
+			$rep = 'assets/images/'.$filename;
+			$rep2 = 'assets/images/'.$filename2;
+			$rep3 = 'assets/images/'.$filename3;
+			$rep4 = 'assets/images/'.$filename4;
+			$rep5 = 'assets/images/'.$filename5;
+
+			$directory = str_replace("system/", $rep, $base);
+			$directory2 = str_replace("system/", $rep2, $base);
+			$directory3 = str_replace("system/", $rep3, $base);
+			$directory4 = str_replace("system/", $rep4, $base);
+			$directory5 = str_replace("system/", $rep5, $base);
+
+			$this->email->phpmailer->AddEmbeddedImage($directory, 'logo_mail');
+			$this->email->phpmailer->AddEmbeddedImage($directory2, 'logo_tel');
+			$this->email->phpmailer->AddEmbeddedImage($directory3, 'logo_m');
+			$this->email->phpmailer->AddEmbeddedImage($directory4, 'logo_skype');
+			$this->email->phpmailer->AddEmbeddedImage($directory5, 'logo_back');
+
 			// VALIDATION DU CHAMPS DU FORMULAIRE (Libelle traitement)
 			$this->form_validation->set_rules('matricule', 'Matricule', 'integer|trim|required|min_length[2]|max_length[10]|xss_clean|htmlspecialchars');
 			$this->form_validation->set_rules('prenom', 'Prénom', 'min_length[4]|max_length[20]|trim|required|xss_clean|htmlspecialchars');
@@ -158,48 +186,23 @@ class Utilisateur extends CI_Controller
 					'gestion_process' => $gestion_g
 				);
 
+
+				$data['prenom'] = $prenom;
+				$data['matricule'] = $matricule;
+				$data['pass'] = $pass;
+
 				if($statut == '1'){
 
+				$data['statut'] = '1';
 
-				$result = $this->email->from("si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
+				$view_mail = $this->load->view('front/mail/mail_view.php', $data, true);
+
+
+				$result = $this->email->from("tolotra_si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
 					->to($mail)
 					->subject("Création de votre compte utilisateur Outil d'aide à l'agent DELAMAISON")
-					->message('
-						<strong>Bonjour '.strtoupper($prenom).'</strong><br/><br/>
-						<p>Votre compte a été créer pour utiliser l\'outil d\'aide à l\'agent DELAMAISON.</p>
-						<p>Ci-joint les détails</p>
-						<h2>Information sur votre compte : </h2>
-						<ol>
-							<li>Matricule : '.$matricule.'</li>
-							<li>Mot de passe : '.$pass.'</li>
-							<li>Lien : http://aide-agent.vivetic.com:8888/delamaison</li>
-						</ol>
-						<p>Cordialement</p> 
-						<hr size="0" style=" border-bottom-width: 1px;	border-top-style: none;	border-right-style: none;	border-bottom-style: solid;	border-left-style: none;	border-bottom-color: #eaeaea; margin-bottom:15px;" />
-						<table border="0" cellpadding="0" cellspacing="0">
-						  <tbody>
-						    <tr>
-						      <td valign="top"><a href="http://www.delamaison.fr" target="_blank"><img src="http://dl1.dlmcdn.fr/images/signature_mail/logo_mail2.png" alt="delamaison" width="193" height="51" border="0" /></a><br /></td>
-						      <td width="30">&nbsp;</td>
-						      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px; ">ADMIN</span><br />
-						          </strong><span style="font-size:11px; letter-spacing:1px;">ADMINISTRATION DELAMAISON<br />
-						          <img src="http://dl1.dlmcdn.fr/images/signature_mail/T6.png" alt="T" width="13" height="12" border="0" align="absmiddle" />          :&nbsp;+33 (0)1 xx xx xx xx<br />
-						            <strong><span style="font-size:12px; font-weight:bold;"><img src="http://dl1.dlmcdn.fr/images/signature_mail/M7.png" alt="M" width="13" height="13" border="0" align="absmiddle" /></span></strong> : +33 (0)6 xx xx xx xx <br />
-						          <img src="http://dl1.dlmcdn.fr/images/signature_mail/skype.png" alt="skype" width="13" height="13" border="0" align="absmiddle" /> adresse_skype </span></td>
-						      <td width="30"></td>
-						      <td width="15" valign="top" background="http://dl1.dlmcdn.fr/images/signature_mail/sepa5.png"></td>
-						      <td width="30"></td>
-						      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px;">delamaison - groupe Adeo</span><br />
-						          <span style="font-size:11px; letter-spacing:1px;">32 avenue de l\'Oc&eacute;anie - BAT C1<br />
-						            ZA Courtaboeuf 3<br />
-						            91 140 Villejust</span></td>
-						    </tr>
-						  </tbody>
-						</table>
-						')
+					->message($view_mail)
 					->send();
-
-					//var_dump($result);
 
 					if($result){
 						
@@ -219,43 +222,14 @@ class Utilisateur extends CI_Controller
 
 				}else if($statut == '0'){
 
-				$result = $this->email->from("si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
+				$data['statut'] = '0';
+
+				$view_mail = $this->load->view('front/mail/mail_view.php', $data, true);
+
+				$result = $this->email->from("tolotra_si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
 					->to($mail)
 					->subject("Création de votre compte utilisateur Outil d'aide à l'agent ")
-					->message('
-						<strong>Bonjour '.strtoupper($prenom).'</strong><br/><br/>
-						<p>Votre compte a été créer pour utiliser l\'outil d\'aide à l\'agent DELAMAISON.</p>
-						<p>Mais il n\'est pas encore activé, veuillez aviser votre N+1 de l\'activer.</p>
-						<p>Ci-joint les détails</p>
-						<h2>Information sur votre compte : </h2>
-						<ol>
-							<li>Matricule : '.$matricule.'</li>
-							<li>Mot de passe : '.$pass.'</li>
-							<li>Lien : http://aide-agent.vivetic.com:8888/delamaison</li>
-						</ol>
-						<p>Cordialement</p>
-						<hr size="0" style=" border-bottom-width: 1px;	border-top-style: none;	border-right-style: none;	border-bottom-style: solid;	border-left-style: none;	border-bottom-color: #eaeaea; margin-bottom:15px;" />
-						<table border="0" cellpadding="0" cellspacing="0">
-						  <tbody>
-						    <tr>
-						      <td valign="top"><a href="http://www.delamaison.fr" target="_blank"><img src="http://dl1.dlmcdn.fr/images/signature_mail/logo_mail2.png" alt="delamaison" width="193" height="51" border="0" /></a><br /></td>
-						      <td width="30">&nbsp;</td>
-						      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px; ">ADMIN</span><br />
-						          </strong><span style="font-size:11px; letter-spacing:1px;">ADMINISTRATION DELAMAISON<br />
-						          <img src="http://dl1.dlmcdn.fr/images/signature_mail/T6.png" alt="T" width="13" height="12" border="0" align="absmiddle" />          :&nbsp;+33 (0)1 xx xx xx xx<br />
-						            <strong><span style="font-size:12px; font-weight:bold;"><img src="http://dl1.dlmcdn.fr/images/signature_mail/M7.png" alt="M" width="13" height="13" border="0" align="absmiddle" /></span></strong> : +33 (0)6 xx xx xx xx <br />
-						          <img src="http://dl1.dlmcdn.fr/images/signature_mail/skype.png" alt="skype" width="13" height="13" border="0" align="absmiddle" /> adresse_skype </span></td>
-						      <td width="30"></td>
-						      <td width="15" valign="top" background="http://dl1.dlmcdn.fr/images/signature_mail/sepa5.png"></td>
-						      <td width="30"></td>
-						      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px;">delamaison - groupe Adeo</span><br />
-						          <span style="font-size:11px; letter-spacing:1px;">32 avenue de l\'Oc&eacute;anie - BAT C1<br />
-						            ZA Courtaboeuf 3<br />
-						            91 140 Villejust</span></td>
-						    </tr>
-						  </tbody>
-						</table>
-						')
+					->message($view_mail)
 					->send();
 
 					//var_dump($result);
@@ -390,6 +364,33 @@ class Utilisateur extends CI_Controller
 
     public function modifier_profil(){
 
+    	$base = BASEPATH;
+
+    	$filename       = 'logo_mail2.png';
+    	$filename2       = 'logo_tel.png';
+    	$filename3       = 'logo_m.png';
+    	$filename4       = 'logo_skype.png';
+    	$filename5       = 'logo_back.png';
+
+		$rep = 'assets/images/'.$filename;
+		$rep2 = 'assets/images/'.$filename2;
+		$rep3 = 'assets/images/'.$filename3;
+		$rep4 = 'assets/images/'.$filename4;
+		$rep5 = 'assets/images/'.$filename5;
+
+		$directory = str_replace("system/", $rep, $base);
+		$directory2 = str_replace("system/", $rep2, $base);
+		$directory3 = str_replace("system/", $rep3, $base);
+		$directory4 = str_replace("system/", $rep4, $base);
+		$directory5 = str_replace("system/", $rep5, $base);
+
+		$this->email->phpmailer->AddEmbeddedImage($directory, 'logo_mail');
+		$this->email->phpmailer->AddEmbeddedImage($directory2, 'logo_tel');
+		$this->email->phpmailer->AddEmbeddedImage($directory3, 'logo_m');
+		$this->email->phpmailer->AddEmbeddedImage($directory4, 'logo_skype');
+		$this->email->phpmailer->AddEmbeddedImage($directory5, 'logo_back');
+
+
 		if($this->input->post('ajax') == '1'){
 
 
@@ -418,46 +419,21 @@ class Utilisateur extends CI_Controller
 					$matricule = $this->input->post('matricule');
 					$pass = $this->input->post('pass');
 					$mail = $this->input->post('mail');
-						
 
-					$result = $this->email->from("si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
+					$data['prenom'] = $prenom;
+					$data['matricule'] = $matricule;
+					$data['pass'] = $pass;
+					$data['statut'] = 'mail_renseigne';
+
+					$view_mail = $this->load->view('front/mail/mail_view.php', $data, true);
+
+					$result = $this->email->from("tolotra_si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
 									->to($mail)
 									->subject("Renseignement de votre adresse E-mail dans l'Outil d'aide à l'agent DELAMAISON")
-
-									->message('
-							<strong>Bonjour '.strtoupper($prenom).'</strong><br/><br/>
-							<p>Merci d\'avoir renseigner votre adresse E-mail, pour utiliser l\'outil d\'aide à l\'agent DELAMAISON.</p>
-							<p>Ci-joint les détails</p>
-							<h2>Information sur votre compte : </h2>
-							<ol>
-								<li>Matricule : '.$matricule.'</li>
-								<li>Mot de passe : '.$pass.'</li>
-								<li>Lien : http://aide-agent.vivetic.com:8888/delamaison</li>
-							</ol>
-							<p>Cordialement</p>
-							<hr size="0" style=" border-bottom-width: 1px;	border-top-style: none;	border-right-style: none;	border-bottom-style: solid;	border-left-style: none;	border-bottom-color: #eaeaea; margin-bottom:15px;" />
-							<table border="0" cellpadding="0" cellspacing="0">
-							  <tbody>
-							    <tr>
-							      <td valign="top"><a href="http://www.delamaison.fr" target="_blank"><img src="http://dl1.dlmcdn.fr/images/signature_mail/logo_mail2.png" alt="delamaison" width="193" height="51" border="0" /></a><br /></td>
-							      <td width="30">&nbsp;</td>
-							      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px; ">ADMIN</span><br />
-							          </strong><span style="font-size:11px; letter-spacing:1px;">ADMINISTRATION DELAMAISON<br />
-							          <img src="http://dl1.dlmcdn.fr/images/signature_mail/T6.png" alt="T" width="13" height="12" border="0" align="absmiddle" />          :&nbsp;+33 (0)1 xx xx xx xx<br />
-							            <strong><span style="font-size:12px; font-weight:bold;"><img src="http://dl1.dlmcdn.fr/images/signature_mail/M7.png" alt="M" width="13" height="13" border="0" align="absmiddle" /></span></strong> : +33 (0)6 xx xx xx xx <br />
-							          <img src="http://dl1.dlmcdn.fr/images/signature_mail/skype.png" alt="skype" width="13" height="13" border="0" align="absmiddle" /> adresse_skype </span></td>
-							      <td width="30"></td>
-							      <td width="15" valign="top" background="http://dl1.dlmcdn.fr/images/signature_mail/sepa5.png"></td>
-							      <td width="30"></td>
-							      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px;">delamaison - groupe Adeo</span><br />
-							          <span style="font-size:11px; letter-spacing:1px;">32 avenue de l\'Oc&eacute;anie - BAT C1<br />
-							            ZA Courtaboeuf 3<br />
-							            91 140 Villejust</span></td>
-							    </tr>
-							  </tbody>
-							</table>
-							')
+										->message($view_mail)
 							->send();
+
+
 
 						if($result){
 
@@ -507,43 +483,17 @@ class Utilisateur extends CI_Controller
 					$pass = $this->input->post('pass');
 					$mail = $this->input->post('mail');
 
-					$result = $this->email->from("si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
+					$data['prenom'] = $prenom;
+					$data['matricule'] = $matricule;
+					$data['pass'] = $pass;
+					$data['statut'] = 'modif_pass_mail';
+
+					$view_mail = $this->load->view('front/mail/mail_view.php', $data, true);
+
+					$result = $this->email->from("tolotra_si@vivetic.mg", "Outil d'aide à l'agent DELAMAISON")
 						->to($mail)
 						->subject("Modification mot de passe et renseignement de votre adresse E-mail dans l'Outil d'aide à l'agent DELAMAISON")
-						
-						->message('
-							<strong>Bonjour '.strtoupper($prenom).'</strong><br/><br/>
-							<p>Merci d\'avoir renseigner votre adresse E-mail et votre mot de passe est modifier, pour utiliser l\'outil d\'aide à l\'agent DELAMAISON.</p>
-							<p>Ci-joint les détails</p>
-							<h2>Information sur votre compte : </h2>
-							<ol>
-								<li>Matricule : '.$matricule.'</li>
-								<li>Mot de passe : '.$pass.'</li>
-								<li>Lien : http://aide-agent.vivetic.com:8888/delamaison</li>
-							</ol>
-							<p>Cordialement</p>
-							<hr size="0" style=" border-bottom-width: 1px;	border-top-style: none;	border-right-style: none;	border-bottom-style: solid;	border-left-style: none;	border-bottom-color: #eaeaea; margin-bottom:15px;" />
-							<table border="0" cellpadding="0" cellspacing="0">
-							  <tbody>
-							    <tr>
-							      <td valign="top"><a href="http://www.delamaison.fr" target="_blank"><img src="http://dl1.dlmcdn.fr/images/signature_mail/logo_mail2.png" alt="delamaison" width="193" height="51" border="0" /></a><br /></td>
-							      <td width="30">&nbsp;</td>
-							      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px; ">ADMIN</span><br />
-							          </strong><span style="font-size:11px; letter-spacing:1px;">ADMINISTRATION DELAMAISON<br />
-							          <img src="http://dl1.dlmcdn.fr/images/signature_mail/T6.png" alt="T" width="13" height="12" border="0" align="absmiddle" />          :&nbsp;+33 (0)1 xx xx xx xx<br />
-							            <strong><span style="font-size:12px; font-weight:bold;"><img src="http://dl1.dlmcdn.fr/images/signature_mail/M7.png" alt="M" width="13" height="13" border="0" align="absmiddle" /></span></strong> : +33 (0)6 xx xx xx xx <br />
-							          <img src="http://dl1.dlmcdn.fr/images/signature_mail/skype.png" alt="skype" width="13" height="13" border="0" align="absmiddle" /> adresse_skype </span></td>
-							      <td width="30"></td>
-							      <td width="15" valign="top" background="http://dl1.dlmcdn.fr/images/signature_mail/sepa5.png"></td>
-							      <td width="30"></td>
-							      <td valign="top" style="font-family:Arial, Helvetica; color:#44486b; line-height:14px;"><span style="font-size:14px; font-weight:bold; letter-spacing:1px;">delamaison - groupe Adeo</span><br />
-							          <span style="font-size:11px; letter-spacing:1px;">32 avenue de l\'Oc&eacute;anie - BAT C1<br />
-							            ZA Courtaboeuf 3<br />
-							            91 140 Villejust</span></td>
-							    </tr>
-							  </tbody>
-							</table>
-							')
+						->message($view_mail)
 						->send();
 
 						//var_dump($result);

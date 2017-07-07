@@ -87,14 +87,148 @@
 					$(this).dataTable({
 						"sPaginationType": "bootstrap",
 						"bProcessing": true,
-						"sAjaxSource": rootPath + 'admin/ajax/DataTables.json',
-				       	"sDom": "<'row separator bottom'<'col-md-12'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+						"bServerSide": true,
+						"sAjaxSource": rootPath + 'front/accueil/datatable',
+				       	"sDom": "<'row separator bottom'<'col-md-3'f><'col-md-3'l><'col-md-3'C><'col-md-3 export'>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ Nb entrées"
+						},
+						"oColVis": {
+							"buttonText": "Afficher / Masquer les colonnes",
+							"sAlign": "right"
+						},
 				       	"sScrollX": "100%",
 				       	"sScrollXInner": "100%",
 				        "bScrollCollapse": true,
 				       	"fnInitComplete": function () {
 					    	fnInitCompleteCallback(this);
-				        }
+				        },
+				        "fnServerData": function(sSource, aoData, fnCallback)
+			            {
+			              $.ajax
+			              ({
+				                'dataType': 'json',
+				                'type'    : 'POST',
+				                'url'     : sSource,
+				                'data'    : aoData,
+				                'success' : fnCallback
+			              });
+			            }
+					});
+
+					$("div.export").html('<a style="margin-left: 150px;" href="#modal-compose" data-toggle="modal" class="btn btn-success"><i class="fa fa-fw icon-document-blank-fill"></i> Export</a>');
+				}
+				else if ($(this).is('.ajax2'))
+				{
+					$(this).dataTable({
+						"sPaginationType": "bootstrap",
+						"bProcessing": true,
+						"bServerSide": true,
+						"sAjaxSource": rootPath + 'front/accueil/datatableUser',
+				       	"sDom": "<'row separator bottom'<'col-md-3'f><'col-md-3'l><'col-md-6'C>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ Nb entrées"
+						},
+						"oColVis": {
+							"buttonText": "Afficher / Masquer les colonnes",
+							"sAlign": "right"
+						},
+				       	"sScrollX": "100%",
+				       	"sScrollXInner": "100%",
+				        "bScrollCollapse": true,
+				       	"fnInitComplete": function () {
+					    	fnInitCompleteCallback(this);
+				        },
+				        "fnServerData": function(sSource, aoData, fnCallback)
+			            {
+			              $.ajax
+			              ({
+				                'dataType': 'json',
+				                'type'    : 'POST',
+				                'url'     : sSource,
+				                'data'    : aoData,
+				                'success' : fnCallback
+			              });
+			            }
+					});
+
+				}
+				else if ($(this).is('.ajax3'))
+				{
+					$(this).dataTable({
+						"sPaginationType": "bootstrap",
+						"bProcessing": true,
+						"bServerSide": true,
+						"sAjaxSource": rootPath + 'front/accueil/datatableAdmin',
+				       	// "sDom": "<'row separator bottom'<'col-md-12'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				       	"sDom": "<'row separator bottom'<'col-md-3'f><'col-md-3'l><'col-md-6'C>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ Nb entrées"
+						},
+						"oColVis": {
+							"buttonText": "Afficher / Masquer les colonnes",
+							"sAlign": "right"
+						},
+				       	"sScrollX": "100%",
+				       	"sScrollY": "350px",
+				       	"sScrollXInner": "100%",
+				        "bScrollCollapse": true,
+				       	"fnInitComplete": function () {
+					    	fnInitCompleteCallback(this);
+				        },
+				        "fnServerData": function(sSource, aoData, fnCallback)
+			            {
+			              $.ajax
+			              ({
+				                'dataType': 'json',
+				                'type'    : 'POST',
+				                'url'     : sSource,
+				                'data'    : aoData,
+				                'success' : fnCallback
+			              });
+			            },
+			            "fnCreatedRow" : function(nRow, aData, iDataIndex){
+			            	$(nRow).attr('class', 'center');
+			            }
+					});
+				}
+                                else if ($(this).is('.ajax4'))
+				{
+					$(this).dataTable({
+						"sPaginationType": "bootstrap",
+						"bProcessing": true,
+						"bServerSide": true,
+						"sAjaxSource": rootPath + 'front/accueil/datatableNotif',
+				       	// "sDom": "<'row separator bottom'<'col-md-12'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				       	"sDom": "<'row separator bottom'<'col-md-3'f><'col-md-3'l><'col-md-6'C>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+						"oLanguage": {
+							"sLengthMenu": "_MENU_ Nb entrées"
+						},
+						"oColVis": {
+							"buttonText": "Afficher / Masquer les colonnes",
+							"sAlign": "right"
+						},
+				       	"sScrollX": "100%",
+				       	"sScrollY": "350px",
+				       	"sScrollXInner": "100%",
+				        "bScrollCollapse": true,
+				       	"fnInitComplete": function () {
+					    	fnInitCompleteCallback(this);
+				        },
+				        "fnServerData": function(sSource, aoData, fnCallback)
+			            {
+			              $.ajax
+			              ({
+				                'dataType': 'json',
+				                'type'    : 'POST',
+				                'url'     : sSource,
+				                'data'    : aoData,
+				                'success' : fnCallback
+			              });
+			            },
+			            "fnCreatedRow" : function(nRow, aData, iDataIndex){
+			            	$(nRow).attr('class', 'center');
+			            }
 					});
 				}
 				else if ($(this).is('.fixedHeaderColReorder'))

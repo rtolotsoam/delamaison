@@ -52,6 +52,8 @@ class MY_Email extends CI_Email {
 
     protected $properties = array();
 
+    protected  $_attachments = array();
+
     protected $mailer_engine = 'codeigniter';
     protected $CI;
     protected $_is_ci_3 = NULL;

@@ -393,6 +393,20 @@ class Accueil_admin extends CI_Controller
             );
             
             $ret = $this->cats->editer_categories($catid, $data);
+
+            $niveau = $this->cats->get_niveau($catid);
+
+
+            if($niveau[0]->niveau == 2 ){
+                
+                $this->cats->editer_categories_withroot_id($catid, $data);
+
+            }else if($niveau[0]->niveau == 3){
+
+                $this->cats->editer_categories_withparent_id($catid, $data);
+
+            }
+
             echo site_url('back/accueil_admin/normal');
                
         }else{
@@ -416,6 +430,20 @@ class Accueil_admin extends CI_Controller
             );
             
             $ret = $this->cats->editer_categories($catid, $data);
+
+            $niveau = $this->cats->get_niveau($catid);
+
+
+            if($niveau[0]->niveau == 2 ){
+                
+                $this->cats->editer_categories_withroot_id($catid, $data);
+
+            }else if($niveau[0]->niveau == 3){
+
+                $this->cats->editer_categories_withparent_id($catid, $data);
+
+            }
+
             echo site_url('back/accueil_admin/normal');
                
         }else{

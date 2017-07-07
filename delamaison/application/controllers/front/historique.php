@@ -16,6 +16,8 @@ class Historique extends CI_Controller
         $this->load->model('fte_historique_view','vhist');
         $this->load->model('fte_processus','proc');
         $this->load->model('fte_traitement','trait');
+        $this->load->model('fte_histo_user','histo_user');
+        
 
     }
 
@@ -34,47 +36,29 @@ class Historique extends CI_Controller
         if($this->session->userdata('loggin') && $this->session->userdata('mle')){
 			
             // CODE
-            $level = $this->session->userdata('level');
+            $col          = 'fte_historique.matricule,initcap(fte_user.prenom)';
+           
+            $level        = $this->session->userdata('level');
+            $data_histo   = $this->histo_user->liste_user_in_histo($col); 
+            
+
+            // var_dump($histo_export);
+            
             //echo $level;
             if($level == "user"){
                 $donnees = $this->vhist->liste_historique_vwByMle($this->session->userdata('mle'));
 
-                if(!empty($donnees)){
-
-                    foreach ($donnees as $val) {
-                        $procs = $this->trait->liste_traitement_by_id((int) $val->campagne_id);
-
-                        if(!empty($procs)){
-                            foreach ($procs as $val_proc) {
-
-                                $data['lib_'.$val->session_id] = $val_proc->info_traitement;
-                            }
-                        }
-                    }
-
-                }
-
             }else if($level == "admin"){
-                $donnees = $this->vhist->liste_historique_vw();   
-                if(!empty($donnees)){
-                        foreach ($donnees as $val) {
-                            $procs = $this->trait->liste_traitement_by_id((int) $val->campagne_id);
-
-                            if(!empty($procs)){
-                                foreach ($procs as $val_proc) {
-
-                                    $data['lib_'.$val->session_id] = $val_proc->info_traitement;
-                                }
-                            }
-                        }
-                }
-
+                $donnees    = $this->vhist->liste_historique_vw();   
+               
             }
+             $data['histo_user'] = $data_histo; 
+             
             // END CODE
 
             // PARAMETRE VUE
             $data['titre'] = 'HISTORIQUES';
-            $data['css'] = array('admin/module.admin.page.tables.min','admin/module.global');
+            $data['css'] = array('admin/module.admin.page.form_elements.min','admin/module.admin.page.tables.min','admin/module.global');
             $data['data_table'] = $donnees;
             $data['level'] = $level;
             $data['gest_g'] = $this->session->userdata('ges_g');
@@ -85,7 +69,7 @@ class Historique extends CI_Controller
             $this->load->view('includes/header.php', $data);
             $this->load->view('includes/menu_vertical.php', $data);
             //$this->load->view('includes/menu_horizental.php');
-            $this->load->view('front/historique_view', $data);
+            $this->load->view('front/historique_view.php', $data);
             $this->load->view('includes/footer.php');
             $this->load->view('includes/js.php');
             // END APPEL VUE

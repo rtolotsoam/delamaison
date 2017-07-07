@@ -1,3 +1,9 @@
+@import '../roboto/roboto.css';
+
+body{
+	font-family: "Roboto" !important;
+}
+
 .navbar.main.navbar-primary .navbar-form input{
 	background-color: #696D89 !important;
 	color : #FFFFFF !important;
@@ -55,7 +61,7 @@
 }
 .etape{
 	margin-left: 75px !important;
-	list-style-image: url('http://192.168.104.83/delamaison/assets/images/list.png') !important;
+	list-style-image: url('http://192.168.104.84/delamaison/assets/images/list.png') !important;
 }
 .logo{
 	margin-left: 250px !important;
@@ -251,8 +257,27 @@ h5{
 
 
 
+.navbar.main.navbar-primary .dropdown-toggle{
+	color : white !important;
+}
+
+.navbar.main.navbar-primary .dropdown-toggle:visited{
+	background-color : #df3633 !important;
+}
 
 
+/************************** Processing Datatable **********************/
 
+.dataTables_processing{
+	display:block !important;
+	position: absolute;
+	top: 50%; 
+	left: 40%;
+	font-size: 1.7em;
+	color: black;
+	border : 1px solid #999999;
+	z-index: 1000;
+	background-color: #F2F2F2;
+}
 
 

@@ -112,6 +112,8 @@ function abort_activity () {
 	if (lst.length>0) {
 		lst[lst.length-1].querySelector("a span").style.color = "#FF0000";
 		lst[lst.length-1].className =  "action-ab";
+		lst[lst.length-1].querySelector("a i").classList.remove("fa-caret-square-o-right");
+		lst[lst.length-1].querySelector("a i").classList.add("fa-stop");
 	}
 }
 
